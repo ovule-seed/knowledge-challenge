@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>学科知识大挑战.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>学科知识大挑战.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">Tk</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+<span class="kn">import</span> <span class="nn">tkinter.messagebox</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageTk</span><span class="p">,</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">playsound</span> <span class="kn">import</span> <span class="n">playsound</span>
+<span class="kn">import</span> <span class="nn">os</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>选择的题库</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">subject</span> <span class="o">=</span> <span class="p">[]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>历史题库</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">subject_history</span> <span class="o">=</span> <span class="p">[[</span><span class="s1">&#39;中国现代史开始于（  ）&#39;</span><span class="p">,</span> <span class="s1">&#39;中华人民共和国成立&#39;</span><span class="p">,</span> <span class="s1">&#39;第一届中国人民政治协商会议召开&#39;</span><span class="p">,</span> <span class="s1">&#39;辛亥革命&#39;</span><span class="p">,</span> <span class="s1">&#39;鸦片战争&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;中国第一部社会主义类型的宪法颁布于（  ）&#39;</span><span class="p">,</span> <span class="s1">&#39;1954&#39;</span><span class="p">,</span> <span class="s1">&#39;1949&#39;</span><span class="p">,</span> <span class="s1">&#39;1982&#39;</span><span class="p">,</span> <span class="s1">&#39;2018&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;土地改革运动和抗美援朝战争相同作用是（  ）&#39;</span><span class="p">,</span> <span class="s1">&#39;巩固人民政权&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;探索社会主义道路&#39;</span><span class="p">,</span> <span class="s1">&#39;推翻封建制度&#39;</span><span class="p">,</span> <span class="s1">&#39;实现社会主义现代化&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;“文革十年动乱”是指（  ）&#39;</span><span class="p">,</span> <span class="s1">&#39;1966年-1976年&#39;</span><span class="p">,</span> <span class="s1">&#39;1956年-1966年&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;1965年-1966年&#39;</span><span class="p">,</span> <span class="s1">&#39;1967年-1977年&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;20世纪90年代，我国改革开放进一步深化和取得显著成就的重要标志是（  ）&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;浦东开发区&#39;</span><span class="p">,</span> <span class="s1">&#39;珠海经济特区&#39;</span><span class="p">,</span> <span class="s1">&#39;汕头经济特区&#39;</span><span class="p">,</span> <span class="s1">&#39;厦门经济特区&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;我国的经济体制改革先从哪里开始 （  ）&#39;</span><span class="p">,</span> <span class="s1">&#39;农村&#39;</span><span class="p">,</span> <span class="s1">&#39;城市&#39;</span><span class="p">,</span> <span class="s1">&#39;国企&#39;</span><span class="p">,</span> <span class="s1">&#39;中央&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;（  ）被称作是70年代中国外交史上最伟大的胜利&#39;</span><span class="p">,</span> <span class="s1">&#39;中美两国正式建立了外交关系&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;中国恢复联合国的合法席位&#39;</span><span class="p">,</span> <span class="s1">&#39;中美两国将世世代代友好下去&#39;</span><span class="p">,</span> <span class="s1">&#39;中日两国关系的坚冰开始融化&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;“一五”计划的基本任务是（ ）&#39;</span><span class="p">,</span> <span class="s1">&#39;集中主要力量发展重工业&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;加速实现手工业的合作化&#39;</span><span class="p">,</span> <span class="s1">&#39;逐步改造资本主义工商业&#39;</span><span class="p">,</span> <span class="s1">&#39;大力发展轻工业&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;中共十一届三中全会的意义说法错误的是它完成了关于什么的拨乱反正（  ）&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;经济路线&#39;</span><span class="p">,</span> <span class="s1">&#39;思想路线&#39;</span><span class="p">,</span> <span class="s1">&#39;政治路线&#39;</span><span class="p">,</span> <span class="s1">&#39;组织路线&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;1992年对于推动中国改革开放能够站在新的历史起点上再出发，具有承先启后、继往开来的作用。</span><span class="se">\n</span><span class="s1">1992年被称为中国30年改革进程标志性的分水岭的主要依据是（  ）&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;确立了市场经济的改革目标&#39;</span><span class="p">,</span> <span class="s1">&#39;制定了改革开放的基本国策&#39;</span><span class="p">,</span> <span class="s1">&#39;形成了立体全面的开放格局&#39;</span><span class="p">,</span> <span class="s1">&#39;作出国有企业改革的决定&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;邓小平被称为中国改革开放和社会主义现代化建设的总设计师，主要因为（ ）&#39;</span><span class="p">,</span> <span class="s1">&#39;提出社会主义初级阶段理论&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;提出解决台湾问题的伟大构想&#39;</span><span class="p">,</span> <span class="s1">&#39;在全国开展平反冤假错案工作&#39;</span><span class="p">,</span> <span class="s1">&#39;解决了中国如何建设社会主义的问题&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;新中国建立后的外交方针是（ ）&#39;</span><span class="p">,</span> <span class="s1">&#39;和平共处五项原则&#39;</span><span class="p">,</span> <span class="s1">&#39;求同存异&#39;</span><span class="p">,</span> <span class="s1">&#39;独立自主&#39;</span><span class="p">,</span> <span class="s1">&#39;一国两制&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;“一国两制”构想的最初提出是为了解决（　）&#39;</span><span class="p">,</span> <span class="s1">&#39;台湾问题&#39;</span><span class="p">,</span> <span class="s1">&#39;统一问题&#39;</span><span class="p">,</span> <span class="s1">&#39;香港问题&#39;</span><span class="p">,</span> <span class="s1">&#39;澳门问题&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;“文化大革命”中形成的两个反革命集团的核心人物分别是（　）&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;林彪、江青&#39;</span><span class="p">,</span> <span class="s1">&#39;林彪、王洪文&#39;</span><span class="p">,</span> <span class="s1">&#39;王洪文、姚文元&#39;</span><span class="p">,</span> <span class="s1">&#39;江青、姚文元&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;我国第一艘航空母舰是（　）&#39;</span><span class="p">,</span> <span class="s1">&#39;辽宁舰&#39;</span><span class="p">,</span> <span class="s1">&#39;上海舰&#39;</span><span class="p">,</span> <span class="s1">&#39;青岛舰&#39;</span><span class="p">,</span> <span class="s1">&#39;大连舰&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;我国第一颗原子爆炸的时间是&#39;</span><span class="p">,</span> <span class="s1">&#39;1964年10月16日&#39;</span><span class="p">,</span> <span class="s1">&#39;1966年10月16日&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;1966年11月16日&#39;</span><span class="p">,</span> <span class="s1">&#39;1964年11月16日&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;2003年10月我国飞天第一人是&#39;</span><span class="p">,</span> <span class="s1">&#39;杨利伟&#39;</span><span class="p">,</span> <span class="s1">&#39;翟志刚&#39;</span><span class="p">,</span> <span class="s1">&#39;袁隆平&#39;</span><span class="p">,</span> <span class="s1">&#39;刘洋&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;新中国成立后土地改革的根本意义在&#39;</span><span class="p">,</span> <span class="s1">&#39;消灭地主阶级，解放农村生产力&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;废除土地私有制&#39;</span><span class="p">,</span> <span class="s1">&#39;实现社会主义土地公有制&#39;</span><span class="p">,</span> <span class="s1">&#39;满足农民土地要求&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;能说明新中国的社会性质的是</span><span class="se">\n</span><span class="s1">①《共同纲领》对中华人民共和国性质的规定②西藏和平解放③1950年开始的土地改革④抗美援朝&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;①③&#39;</span><span class="p">,</span> <span class="s1">&#39;③④&#39;</span><span class="p">,</span> <span class="s1">&#39;②④&#39;</span><span class="p">,</span> <span class="s1">&#39;①②&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;为了维护国家领土完整和主权独立，新中国 ①召开了中国人民政治协商会议</span><span class="se">\n</span><span class="s1">②新政协第一届全体会议任命周恩来为政务院总理③1951年和平解放西藏④1950年中国人民志愿军抗美援朝&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;③④&#39;</span><span class="p">,</span> <span class="s1">&#39;①③&#39;</span><span class="p">,</span> <span class="s1">&#39;②④&#39;</span><span class="p">,</span> <span class="s1">&#39;①②&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;解决台湾问题的前提是&#39;</span><span class="p">,</span> <span class="s1">&#39;一个中国的原则&#39;</span><span class="p">,</span> <span class="s1">&#39;和平统一&#39;</span><span class="p">,</span> <span class="s1">&#39;一国两制&#39;</span><span class="p">,</span> <span class="s1">&#39;加强经济合作&#39;</span><span class="p">],</span>
+                   <span class="p">[</span><span class="s1">&#39;从1949年召开人民政协第一届会议，到1954年召开第一届全国人大第一次会议，说明新中国&#39;</span><span class="p">,</span> <span class="s1">&#39;政治建设逐渐步入法制化轨道&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;开始进行社会主义“三大改造”&#39;</span><span class="p">,</span> <span class="s1">&#39;经济结构已发生重大变化&#39;</span><span class="p">,</span> <span class="s1">&#39;土地改革已经发生重大变化&#39;</span><span class="p">]</span>
+                   <span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>地理题库</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">subject_geography</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;正确反映我国自然环境差异显著的是&#39;</span><span class="p">,</span> <span class="s1">&#39;海南岛长夏无冬，黑龙江省长冬无夏&#39;</span><span class="p">,</span> <span class="s1">&#39;东南沿海山清水秀，西北内陆沙漠、戈壁广布&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;我国地势东高西低，呈阶梯状分布&#39;</span><span class="p">,</span> <span class="s1">&#39;东北平原一年一熟，珠江三角洲两年三熟&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;人类活动也呈现明显的差异。下列叙述不正确的是&#39;</span><span class="p">,</span> <span class="s1">&#39;农作物具有南麦北稻、南甘北甜的分布特点&#39;</span><span class="p">,</span> <span class="s1">&#39;人口、交通线表现为东密西疏的特点&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;经济发展水平东部高、西部低&#39;</span><span class="p">,</span> <span class="s1">&#39;农业具有西牧东耕的分布特点&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;我国的港、澳、台地区，在经济发展上的相同特点是&#39;</span><span class="p">,</span> <span class="s1">&#39;都有发达的旅游业&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;都以博彩业为主&#39;</span><span class="p">,</span> <span class="s1">&#39;都以钢铁、机械等重工业为主&#39;</span><span class="p">,</span> <span class="s1">&#39;都以农业和农产品加工业为主&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;下列地形区全位于南方地区的是&#39;</span><span class="p">,</span> <span class="s1">&#39;四川盆地、东南丘陵&#39;</span><span class="p">,</span> <span class="s1">&#39;黄土高原、东南丘陵&#39;</span><span class="p">,</span> <span class="s1">&#39;长江中下游平原、东北平原&#39;</span><span class="p">,</span> <span class="s1">&#39;华北平原、云贵高原&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;黄土高原在独特的自然环境影响下，创造的独特黄土高原文化有</span><span class="se">\n</span><span class="s1">①信天游 ②安塞腰鼓 ③永定土楼 ④窑洞&#39;</span><span class="p">,</span> <span class="s1">&#39;①②④&#39;</span><span class="p">,</span> <span class="s1">&#39;①③④&#39;</span><span class="p">,</span> <span class="s1">&#39;①②③&#39;</span><span class="p">,</span> <span class="s1">&#39;②③④&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;关于北方地区自然地理特征的描述正确的是&#39;</span><span class="p">,</span> <span class="s1">&#39;&quot;北风卷地白草折，胡天八月即飞雪&quot;是对该地区冬季景观的描述&#39;</span><span class="p">,</span> <span class="s1">&#39;地跨中温带、暖温带，全部属于半湿润区&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;地形以平原和高原为主&#39;</span><span class="p">,</span> <span class="s1">&#39;该地区降水较少，春旱严重&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;我国&quot;南船北马&quot;传统交通特点的主要成因是&#39;</span><span class="p">,</span> <span class="s1">&#39;南北降水及河流特点的不同&#39;</span><span class="p">,</span> <span class="s1">&#39;南北人口分布的差异&#39;</span><span class="p">,</span> <span class="s1">&#39;南北植被类型不同&#39;</span><span class="p">,</span> <span class="s1">&#39;南北气温高低的差异&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;导致我国南、北方农耕制度不同的主要自然因素是&#39;</span><span class="p">,</span> <span class="s1">&#39;气候&#39;</span><span class="p">,</span> <span class="s1">&#39;地形&#39;</span><span class="p">,</span> <span class="s1">&#39;技术&#39;</span><span class="p">,</span> <span class="s1">&#39;土壤&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;为实现可持续发展，“西气东输”工程建设时需要注意的是&#39;</span><span class="p">,</span> <span class="s1">&#39;生态的保护&#39;</span><span class="p">,</span> <span class="s1">&#39;资金的运用&#39;</span><span class="p">,</span> <span class="s1">&#39;技术的革新&#39;</span><span class="p">,</span> <span class="s1">&#39;人才的培养&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;下列地理事物中，与青藏铁路沿线看到的景观特征不相符的是&#39;</span><span class="p">,</span> <span class="s1">&#39;经济发达，人口稠密&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;雪山连绵，冰川纵横&#39;</span><span class="p">,</span> <span class="s1">&#39;藏民欢歌，青稞片片&#39;</span><span class="p">,</span> <span class="s1">&#39;许多铁路高架，列车供氧&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;以下是某同学赞美家乡的散文诗：“挽黄河臂膀，依太行身躯，踏千里黄土，采万年‘乌金’，揽五台佛光……”他赞美的是&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;山西省&#39;</span><span class="p">,</span> <span class="s1">&#39;陕西省&#39;</span><span class="p">,</span> <span class="s1">&#39;山东省&#39;</span><span class="p">,</span> <span class="s1">&#39;河南省&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;关于我国重大工程建设的说法正确的是&#39;</span><span class="p">,</span> <span class="s1">&#39;南水北调是把长江的水调入华北西北缓解那里的水资源不足的状况&#39;</span><span class="p">,</span> <span class="s1">&#39;西气东输工程对缓解我国华北地区电力紧张的状况起重要作用&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;我国四川云南贵州等地开发水电主要为满足本地的电力需求&#39;</span><span class="p">,</span> <span class="s1">&#39;青藏铁路的修建将会给西部脆弱的生态环境带来不利影响&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;某旅行社为了吸引游客特地推出了四条旅游线路，不属于西部的是&#39;</span><span class="p">,</span> <span class="s1">&#39;红壤茶园&#39;</span><span class="p">,</span> <span class="s1">&#39;丝路驼铃&#39;</span><span class="p">,</span> <span class="s1">&#39;苗寨风情&#39;</span><span class="p">,</span> <span class="s1">&#39;雪域高原&#39;</span><span class="p">]</span>
+<span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>道德与法治题库</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">subject_ethics_law</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="s1">&#39;我国的宪法原则是&#39;</span><span class="p">,</span> <span class="s1">&#39;尊重和保障人权&#39;</span><span class="p">,</span> <span class="s1">&#39;一切权利属于公民&#39;</span><span class="p">,</span> <span class="s1">&#39;依法治国首先是依宪治国&#39;</span><span class="p">,</span> <span class="s1">&#39;宪法是国家的根本大法&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;2017年7月17日上午，228名身着检服、胸戴检章</span><span class="se">\n</span><span class="s1">的最高人民检察院首批入额检察官，在最高人民检察院检察长曹建明的率领下，</span><span class="se">\n</span><span class="s1">进行了庄严的宪法宣誓。你认为检察官为什么要向宪法宣誓？&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;宪法是一切组织和个人的根本活动准则&#39;</span><span class="p">,</span> <span class="s1">&#39;人民检察院坚持依法行政&#39;</span><span class="p">,</span> <span class="s1">&#39;人民检察院独立行使检察权&#39;</span><span class="p">,</span> <span class="s1">&#39;人民检察院是国家的法律监督机关&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;中国的人权事业取得了巨大成就，但前进的路上仍困难重重，其中最大的障碍是&#39;</span><span class="p">,</span> <span class="s1">&#39;贫穷&#39;</span><span class="p">,</span> <span class="s1">&#39;不尊重人权&#39;</span><span class="p">,</span> <span class="s1">&#39;法治观念淡薄&#39;</span><span class="p">,</span> <span class="s1">&#39;教育水平不高&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;十九大报告强调，要在发展中补齐民生短板、促进社会公平正义，在幼有所育、学有所教、劳有所得、</span><span class="se">\n</span><span class="s1">病有所医、老有所养、住有所居、弱有所扶上不断取得新进展，深入开展脱贫攻坚，</span><span class="se">\n</span><span class="s1">保证全体人民在共建共享发展中有更多获得感。这体现了&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;增进民生福祉是发展的根本目的&#39;</span><span class="p">,</span> <span class="s1">&#39;党和国家加强依法行政，保障和改善民生&#39;</span><span class="p">,</span> <span class="s1">&#39;人民将享有更为广泛的民主权利和自由&#39;</span><span class="p">,</span> <span class="s1">&#39;我国坚决维护公平正义，防止出现收入差距&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;38岁的高红升，是安徽省黄山王村镇的副镇长，五月中旬，身处困境的他在滴滴网络约车平台</span><span class="se">\n</span><span class="s1">上班时间接单被查，同时被当地的士司机举报至纪委。你认为这是该地的士司机在行使自己的&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;监督权&#39;</span><span class="p">,</span> <span class="s1">&#39;重大事项决定权&#39;</span><span class="p">,</span> <span class="s1">&#39;政治权利&#39;</span><span class="p">,</span> <span class="s1">&#39;文化权利&#39;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;我国各级政府工作部门正在全面推行清单制度， 推进政府机构、 职能、 权限、 程序和责任法定化， 厘清权力的边界。 这一措施（ ）&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;说明依法治国首先是依法行政&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;有利于推进依法行政&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;有利于人民直接管理国家大事&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;各级政府部门是国家最高的权力机关&#39;</span>
+     <span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;中国特色社会主义最本质的特征是（ ）&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;中国共产党领导&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;公有制为主体、 多种所有制经济共同发展&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;人民代表大会制度&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;中国共产党领导的多党合作和政治协商制度&#39;</span>
+     <span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;中国人民政治协商会议， 简称人民政协。 人民政协围绕团结和民主两大主题履行以下职能（ ）&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;政治协商&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;民主决策&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;民主监督&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;参政议政&#39;</span>
+     <span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;公平是人类历史上的一个永恒话题。你认为下列对公平的理解中， 正确的是（ ）&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;处理事情合情合理、不偏不倚的行为方式&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;每个人都享受权利和义务&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;公平就是做到权利运用公平&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;做到了公平，社会上的一切事情也都迎刃而解了&#39;</span>
+     <span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;人社部调整基本养老金水平的决定反映了哪些情况？&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;体现了党和政府在致力于维护社会的公平正义&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;说明社会主义制度具有无比的优越性&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;说明我们已经不存在贫富差距&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;说明我们的政府在坚持依法行政&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;开展“晨读宪法”活动的目的是什么？&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;是增强宪法意识，全面推进依法治国的需要&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;体现了宪法制定和修改的程序比普通法律更严格&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;是公民依法行使政治权利的体现&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;体现了宪法是普通法律的立法基础&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;我国的国家权力机关是什么？&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;人民代表大会&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;全国人民代表大会&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;地方各级人民代表大会&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;国务院&quot;</span><span class="p">],</span>
+    <span class="p">[</span><span class="s2">&quot;下列哪项行为既正确行使了公民权利又履行了公民义务？&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;李红同学提醒开公司的父亲要缴纳税款&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;八年级学生小明，品学兼优，被评为“学习标兵”&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;小赵同学在旅游景区刻上自己的名字&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;李涛同学向同学借钱购买手机，却一直未归还&quot;</span><span class="p">]</span>
+<span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>读取历史最高得分和上次得分</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;score_record.txt&#39;</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;score_record.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;0 0 0&#39;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;score_record.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">high_score</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">last_score</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">last_played</span> <span class="o">=</span> <span class="s2">&quot;无记录&quot;</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">high_score</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">last_score</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">last_played</span> <span class="o">=</span> <span class="s2">&quot;无记录&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">high_score</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">last_score</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">last_played</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="n">high_score</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">last_score</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">last_played</span> <span class="o">=</span> <span class="s2">&quot;无记录&quot;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>创建标签并将历史最高分和上次得分添加到标签中</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>点击音效</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">play_click_sound</span><span class="p">():</span>
+    <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">playsound</span><span class="p">(</span><span class="s1">&#39;sound/click.mp3&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>判断选择题库</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">choose_subject</span><span class="p">(</span><span class="n">history</span><span class="p">,</span> <span class="n">geography</span><span class="p">,</span> <span class="n">ethics_law</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">subject</span>
+    <span class="k">if</span> <span class="n">history</span><span class="p">:</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="n">subject_history</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">geography</span><span class="p">:</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="n">subject_geography</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">ethics_law</span><span class="p">:</span>
+        <span class="n">subject</span> <span class="o">=</span> <span class="n">subject_ethics_law</span>
+        <span class="n">root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>-----------------------选择题库-----------------------------
+创建GUI</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">root</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+<span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;选择题库&quot;</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s1">&#39;1000x700&#39;</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Button-1&gt;&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">play_click_sound</span><span class="p">())</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>加载图片文件</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">image_file</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;image/cover.jpg&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">image_file</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>创建标签并将图片添加到标签中</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">background_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+<span class="n">background_label</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">relheight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>创建按钮</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">subject_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;选择题库&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">)</span>
+<span class="n">subject_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+<span class="n">score_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;历史最高分：</span><span class="si">{}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">上次得分：</span><span class="si">{}</span><span class="s1"> </span><span class="se">\n</span><span class="s1">上次游玩时间：</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">high_score</span><span class="p">,</span> <span class="n">last_score</span><span class="p">,</span> <span class="n">last_played</span><span class="p">),</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">)</span>
+<span class="n">score_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">history_btn</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+    <span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;             历史             &quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#63B8FF&#39;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">,</span>
+    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">choose_subject</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+<span class="n">history_btn</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relx</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rely</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">history_btn</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">history_btn</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#4D7DAA&#39;</span><span class="p">))</span>
+<span class="n">history_btn</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">history_btn</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#63B8FF&#39;</span><span class="p">))</span>
+
+<span class="n">geography_btn</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+    <span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;             地理             &quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#63B8FF&#39;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">,</span>
+    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">choose_subject</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+<span class="n">geography_btn</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relx</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rely</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">geography_btn</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">geography_btn</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#4D7DAA&#39;</span><span class="p">))</span>
+<span class="n">geography_btn</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">geography_btn</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#63B8FF&#39;</span><span class="p">))</span>
+
+<span class="n">ethics_law_btn</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
+    <span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s2">&quot;             社会             &quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#63B8FF&#39;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">,</span>
+    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">choose_subject</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">),)</span>
+<span class="n">ethics_law_btn</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relx</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rely</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ethics_law_btn</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span>
+    <span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">ethics_law_btn</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#4D7DAA&#39;</span><span class="p">))</span>
+<span class="n">ethics_law_btn</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span>
+    <span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">ethics_law_btn</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;#63B8FF&#39;</span><span class="p">))</span>
+
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>----------答题界面----------------
+创建窗口</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">window</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Tk</span><span class="p">()</span>
+<span class="n">window</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;中国现代史学习软件&#39;</span><span class="p">)</span>
+<span class="n">window</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s1">&#39;1000x700&#39;</span><span class="p">)</span>
+<span class="n">window</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">image_background</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;image</span><span class="se">\\</span><span class="s2">background.jpg&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">image_background</span><span class="p">)</span>
+<span class="n">window</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Button-1&gt;&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">play_click_sound</span><span class="p">())</span>
+
+<span class="n">background2_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+<span class="n">background2_label</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">relheight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>创建控件</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">title_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;选择正确的选项&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span>
+    <span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">highlightthickness</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">title_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">subject_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span>
+    <span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">subject_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">button1</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]))</span>
+<span class="n">button1</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">button1</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">button1</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;darkred&#39;</span><span class="p">))</span>
+<span class="n">button1</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">button1</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">))</span>
+
+<span class="n">button2</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]))</span>
+<span class="n">button2</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">button2</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">button2</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;darkred&#39;</span><span class="p">))</span>
+<span class="n">button2</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">button2</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">))</span>
+
+<span class="n">button3</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">]))</span>
+<span class="n">button3</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">button3</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">button3</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;darkred&#39;</span><span class="p">))</span>
+<span class="n">button3</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">button3</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">))</span>
+
+<span class="n">button4</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">],</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                    <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">subject</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">4</span><span class="p">]))</span>
+<span class="n">button4</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">button4</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">button4</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;darkred&#39;</span><span class="p">))</span>
+<span class="n">button4</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span> <span class="n">h</span><span class="o">=</span><span class="n">button4</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">))</span>
+
+
+<span class="n">score_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;得分：0&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span>
+    <span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">score_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">check_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span>
+    <span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">check_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">timer_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;计时器：0秒&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span>
+    <span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">foreground</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;yellow&#39;</span><span class="p">)</span>
+<span class="n">timer_label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>处理选择</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">handle_choice</span><span class="p">(</span><span class="n">choice</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">score</span><span class="p">,</span> <span class="n">current_subject</span><span class="p">,</span> <span class="n">start_time</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">score</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">score_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;得分：</span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">check_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;正确&#39;</span><span class="p">)</span>
+            <span class="n">current_subject</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">current_subject</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">subject</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="c1">#保障题目无序给出</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">score_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;得分：</span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">check_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;错误&#39;</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    
+    <span class="k">while</span> <span class="n">current_subject</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">subject</span><span class="p">):</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">]</span>
+                   <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">4</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+        <span class="n">button1</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                       <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">button2</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                       <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">button3</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                       <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="n">button4</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                       <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+        <span class="n">subject_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">break</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      <p>更新计时器标签</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
+    <span class="n">timer_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;计时器：</span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">}</span><span class="s1">秒&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">handle_retry</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">score</span><span class="p">,</span> <span class="n">current_subject</span>
+    <span class="n">button1</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+    <span class="n">button2</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+    <span class="n">button3</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+    <span class="n">button4</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">score_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;得分：</span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">button1</span><span class="o">.</span><span class="n">cget</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">):</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                       <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">3</span><span class="p">]]</span>
+        <span class="k">elif</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">button1</span><span class="o">.</span><span class="n">cget</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">):</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span>
+                       <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">3</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="p">[</span><span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span>
+                       <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">2</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+        <span class="n">button1</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">button2</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">button3</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">button4</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle_choice</span><span class="p">(</span>
+            <span class="n">options</span><span class="p">[</span><span class="mi">3</span><span class="p">]),</span> <span class="n">text</span><span class="o">=</span><span class="n">options</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="k">break</span>
+    <span class="n">subject_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">subject</span><span class="p">[</span><span class="n">current_subject</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">update_timer</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>计算已经过去的时间</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">elapsed_time</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>更新计时器标签的文本和样式</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">timer_label</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;计时器：</span><span class="si">{</span><span class="n">elapsed_time</span><span class="si">}</span><span class="s1">秒&#39;</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;#000000&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <p>每隔一秒调用自身更新计时器</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">timer_label</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">update_timer</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>创建模式选择控件和按钮控件</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">mode</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">IntVar</span><span class="p">()</span>
+<span class="n">mode</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mode_frame</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+<span class="n">mode_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">end_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;结束学习&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span>
+    <span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">command</span><span class="o">=</span><span class="n">window</span><span class="o">.</span><span class="n">destroy</span><span class="p">)</span>
+<span class="n">end_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">end_button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">end_button</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">))</span>
+<span class="n">end_button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">end_button</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;SystemButtonFace&#39;</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      <p>初始化游戏</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">current_subject</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">update_timer</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>运行窗口</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">window</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <p>结算界面</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">root</span> <span class="o">=</span> <span class="n">Tk</span><span class="p">()</span>
+<span class="n">root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;结算&#39;</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s1">&#39;1000x700&#39;</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">resizable</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">root</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Button-1&gt;&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">:</span> <span class="n">play_click_sound</span><span class="p">())</span>
+
+<span class="n">image_account</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;image</span><span class="se">\\</span><span class="s2">account.jpg&quot;</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="n">image_account</span><span class="p">)</span>
+
+<span class="n">background3_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+<span class="n">background3_label</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">relheight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">account_label</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;恭喜，您一共获得了&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">score</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;分&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="n">account_label</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relx</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rely</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+
+<span class="n">end_button</span> <span class="o">=</span> <span class="n">tk</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;确认&#39;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="p">(</span>
+    <span class="s1">&#39;微软雅黑&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">command</span><span class="o">=</span><span class="n">root</span><span class="o">.</span><span class="n">destroy</span><span class="p">)</span>
+<span class="n">end_button</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">relx</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rely</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">anchor</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">end_button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Enter&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">end_button</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;lightgray&#39;</span><span class="p">))</span>
+<span class="n">end_button</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s2">&quot;&lt;Leave&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">event</span><span class="p">,</span>
+             <span class="n">h</span><span class="o">=</span><span class="n">end_button</span><span class="p">:</span> <span class="n">h</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">bg</span><span class="o">=</span><span class="s1">&#39;SystemButtonFace&#39;</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>储存分数和时间</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">score_record</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">score</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">-%H:%M:%S&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;score_record.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">score_record</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      <p>更新最高得分和上次得分</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">last_score</span> <span class="o">=</span> <span class="n">score</span>
+<span class="k">if</span> <span class="n">last_score</span> <span class="o">&gt;</span> <span class="n">high_score</span><span class="p">:</span>
+    <span class="n">high_score</span> <span class="o">=</span> <span class="n">last_score</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;score_record.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">high_score</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">last_score</span><span class="p">)</span> <span class="o">+</span>
+            <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">score_record</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">root</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
