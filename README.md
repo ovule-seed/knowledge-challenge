@@ -29,4 +29,4 @@
 
 (4)下一次打开时，便可以在界面中看到“历史最高分”“上次得分”和“上次游玩时间”。
 
-[the Central Committee of the Capacity Party of China(CCCPC)](ovule-seed.github.io)
+[the Central Committee of the Capacity Party of China(CCCPC)](https://ovule-seed.github.io/)
